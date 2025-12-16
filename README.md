@@ -57,14 +57,11 @@ Below is a simplified architecture diagram. You can render this using any Markdo
 
 ```mermaid
 graph LR
-  A[Client A]
-  B[Relay Server]
-  C[Client B]
-  A -->|REGISTER| B
-  C -->|REGISTER| B
-  A -->|SEND (E2EE blob)| B
+  A[Client A] -->|REGISTER| B[Relay Server]
+  C[Client B] -->|REGISTER| B
+  A -->|SEND| B
   B -->|STORE & FORWARD| C
-  A ---|Key Agreement X3DH| C
+  A -->|X3DH Key Agreement| C
 ```
 
 This diagram intentionally keeps the relay server in a metadata-only role: it forwards and stores messages but does not decrypt message content.
