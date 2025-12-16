@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Specification v2.0 | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item active">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item ">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item ">Python SDK</a><a href="../sdk/flutter.html" class="nav-item ">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>Protocol Specification v2.0</h1><br><p>> **Warning**: This document contains heavy cryptographic details. You do not need to understand this to use the SDK.</p><br><p>Sibna Protocol v2 combines **X3DH** (Extended Triple Diffie-Hellman) for key agreement and the **Double Ratchet** algorithm for message encryption.</p><br><h2>1. Cryptographic Primitives</h2><li>**Curve**: X25519 (Elliptic Curve Diffie-Hellman).</li><li>**Signing**: Ed25519.</li><li>**Cipher**: AES-256-GCM (Authenticated Encryption).</li><li>**Hash**: SHA-256.</li><li>**KDF**: HKDF (HMAC-based Key Derivation Function).</li><br><h2>2. X3DH (Key Agreement)</h2><br><p>To establish a session, Bob computes a master secret $SK$ using keys from Alice's bundle.</p><br><p>$SK = KDF( DH(IK_a, E_b) || DH(SPK_a, E_b) || DH(SPK_a, IK_b) || DH(OPK_a, IK_b) )$</p><br><p>Where:</p><li>$IK$: Identity Key (Long-term)</li><li>$SPK$: Signed PreKey (Medium-term)</li><li>$OPK$: One-Time PreKey (One-use)</li><li>$E$: Ephemeral Key (Generated just for this handshake)</li><br><p>This ensures that even if Alice's Identity Key is compromised later, the session key remains safe (Forward Secrecy via $OPK$ and $E$).</p><br><h2>3. Double Ratchet (Message Encryption)</h2><br><p>Once $SK$ is established, it is used as the "Root Key" for the Double Ratchet.</p><br><h3>The Symmetric Ratchet</h3><p>For every message sent, the Chain Key ($CK$) rolls forward using a One-Way Function (Hash).</p><p>$$ CK_{n+1} = HMAC(CK_n, \text{"Update"}) $$</p><p>$$ MessageKey = HMAC(CK_n, \text{"Message"}) $$</p><br><p>This ensures that obtaining a message key reveals nothing about previous keys (Forward Secrecy).</p><br><h3>The Diffie-Hellman Ratchet</h3><p>If users are strictly taking turns (ping-pong), we perform a DH Ratchet.</p><p>1.  Bob sends a new public key $E_{bob}$ with his message.</p><p>2.  Alice receives it, computes $DH(E_{bob}, E_{alice})$, and derives a **new Root Key**.</p><p>3.  This resets the chains.</p><br><p>This ensures that if a key is stolen, the attacker is locked out as soon as a new reply is sent (Post-Compromise Security).</p><br><h2>4. Header Encryption</h2><p>To minimize metadata leakage, the message header (containing the ratchet step number) is also encrypted. Only the intended recipient can decode *which* turn of the conversation this is.</p><br><div class="docs-footer"><a href="../protocol/security.html" class="nav-prev">← Previous</a><a href="../sdk/flutter.html" class="nav-next">Next →</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>

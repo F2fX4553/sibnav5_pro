@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sibna Manifesto | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item ">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item ">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item ">Python SDK</a><a href="../sdk/flutter.html" class="nav-item ">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>The Sibna Manifesto</h1><br><p>> "Privacy is not an option, it is the foundation of freedom."</p><br><p>In an era where every digital interaction is monetized, tracked, and analyzed, **Sibna Protocol** stands as a fortress of digital sovereignty. We didn't build Sibna just to chat; we built it to reclaim the right to whisper in a crowded room.</p><br><h2>The Three Pillars of Sibna</h2><br><h3>1. Trust No One (Zero Trust)</h3><p>Traditional systems rely on trusting the server. If the server is compromised, your data is gone.</p><p>Sibna flips this model. The server is strictly a **relay**. It sees encrypted blobs, but it never holds the keys. Even if the server operator is malicious, your messages remain mathematically inaccessible.</p><br><h3>2. Radical Resilience</h3><p>Communication shouldn't depend on perfect 5G buffers.</p><li>**Offline-First**: Messages are queued locally until a connection is found.</li><li>**Asynchronous**: You can send a secure message to Bob even if Bob has been offline for a week.</li><li>**Decentralizable**: The protocol is agnostic to the transport layer. Run it over HTTP, TCP, WebSocket, or even Radio.</li><br><h3>3. Post-Compromise Security</h3><p>What if an attacker steals your key today?</p><p>With static encryption, they can read all your past and future messages.</p><p>With Sibna's **Double Ratchet**, a stolen key is useless. The encryption keys rotate with *every single message*.</p><li>If an attacker compromises you at 2:00 PM, they cannot read messages sent at 1:59 PM (Forward Secrecy).</li><li>If you send a new message at 2:01 PM, the attacker loses access again (Post-Compromise Security).</li><br><h2>Who is Sibna For?</h2><li>**Journalists** protecting sources.</li><li>**Enterprises** securing trade secrets.</li><li>**Developers** building the next generation of privacy-preserving apps.</li><li>**Humans** who believe their conversations belong to them.</li><br><p>Welcome to the future of communication.</p><br><div class="docs-footer"><a href="../introduction/architecture.html" class="nav-prev">← Previous</a><a href="../protocol/security.html" class="nav-next">Next →</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>

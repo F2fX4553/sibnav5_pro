@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter SDK | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item ">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item ">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item ">Python SDK</a><a href="../sdk/flutter.html" class="nav-item active">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>Flutter SDK</h1><br><p>Build native secure messenger apps for iOS and Android using `sibna-dart`.</p><br><h2>Installation</h2><p>Add this to your `pubspec.yaml`:</p><pre><code>dependencies:
+sibna_dart: ^1.0.0
+</code></pre><br><h2>Usage</h2><p>The API mirrors the Python SDK for consistency.</p><br><pre><code>final client = SibnaClient(userId: 'mobile_user');
+await client.initialize();
+
+// Send a message
+await client.send(recipient: 'server_bot', content: 'Ping');
+
+// Listen for messages
+client.messages.listen((msg) {
+print('New Message: ${msg.content}');
+});
+</code></pre><br><div class="docs-footer"><a href="../protocol/specs.html" class="nav-prev">← Previous</a><a href="../sdk/python.html" class="nav-next">Next →</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>

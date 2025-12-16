@@ -1,0 +1,115 @@
+:root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8;
+    --border: #334155;
+    --code-bg: #0f172a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-links { list-style: none; }
+.nav-links li {
+    padding: 10px 12px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.nav-links li:hover, .nav-links li.active {
+    background-color: #33415555;
+    color: var(--text-primary);
+}
+.nav-links li.active { border-left: 3px solid var(--accent); }
+
+.section-title {
+    margin-top: 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    pointer-events: none;
+}
+
+/* Main Content */
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.top-bar {
+    height: 60px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.markdown-body {
+    padding: 40px;
+    overflow-y: auto;
+    max-width: 900px;
+    line-height: 1.6;
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 20px; color: var(--text-primary); }
+h2 { font-size: 1.8rem; margin-top: 40px; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+h3 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 10px; color: var(--accent); }
+p { margin-bottom: 15px; color: #cbd5e1; }
+
+code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #33415555;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #e2e8f0;
+}
+
+pre {
+    background: #020617;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+}

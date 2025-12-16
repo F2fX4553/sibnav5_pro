@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Architecture | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item ">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item ">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item ">Python SDK</a><a href="../sdk/flutter.html" class="nav-item ">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>System Architecture</h1><br><p>Sibna is designed as a distributed, client-heavy system. The intelligence lives at the edges (the clients), while the center (the server) is minimal and untrusted.</p><br><h2>High-Level Topology</h2><br><pre><code>[ Alice (Client) ] <---> [ Sibna Relay (Server) ] <---> [ Bob (Client) ]
+|                           |                           |
+(SQLite DB)                (SQLite DB)                 (SQLite DB)
+- PreKeys                  - Message Queue             - PreKeys
+- Sessions                 - Users Dir                 - Sessions
+- Message Log                                          - Message Log
+</code></pre><br><h2>The Data Flow</h2><br><h3>1. Registration (Identity Creation)</h3><p>1.  Alice generates a stable Identity Key Pair ($IK_a$).</p><p>2.  She generates a Signed PreKey ($SPK_a$) and a batch of One-Time PreKeys ($OPK_a^1...OPK_a^{100}$).</p><p>3.  She signs $SPK_a$ with $IK_a$.</p><p>4.  She uploads this "Key Bundle" to the Server.</p><br><h3>2. Session Initialization (X3DH)</h3><p>When Bob wants to talk to Alice:</p><p>1.  Bob fetches Alice's Key Bundle from the Server.</p><p>2.  Bob performs the X3DH calculation locally to derive a Shared Secret ($SK$).</p><p>3.  Bob deletes Alice's One-Time Key used in the process.</p><p>4.  Bob encrypts an initial message using $SK$ and sends it to the Server.</p><br><h3>3. The Relay (Server Handling)</h3><p>1.  The Server receives the encrypted blob.</p><p>2.  It looks up "Alice" in its database.</p><p>3.  It appends the blob to Alice's `inbox` table.</p><p>4.  It returns `200 OK` to Bob. (Bob now knows the server accepted it).</p><br><h3>4. Delivery & Decryption</h3><p>1.  Alice comes online and polls `GET /messages`.</p><p>2.  The Server sends the encrypted blob.</p><p>3.  Alice uses her private keys to replicate the X3DH math Bob did.</p><p>4.  She derives the same Shared Secret ($SK$).</p><p>5.  She decrypts the message.</p><br><h2>Client Architecture (SDK)</h2><br><p>The `sibna` Client is composed of three layers:</p><br><p>1.  **Network Layer**: Handles HTTP retries, timeouts, and JSON serialization.</p><p>2.  **Storage Layer**: A local SQLite database managing the `outbox` (retry queue) and `sessions` (Double Ratchet properties).</p><p>3.  **Crypto Core**: The logic for X3DH and Ratcheting (implemented in Python/Rust).</p><br><div class="docs-footer"><a href="../index.html" class="nav-prev">← Previous</a><a href="../introduction/philosophy.html" class="nav-next">Next →</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>

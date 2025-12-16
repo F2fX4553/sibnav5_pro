@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Model | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item ">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item active">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item ">Python SDK</a><a href="../sdk/flutter.html" class="nav-item ">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>Security Model</h1><br><p>This document outlines the threat model Sibna is designed to withstand and the guarantees it provides.</p><br><h2>Threat Assumptions</h2><p>We assume a **powerful adversary** (e.g., a nation-state or compromised server admin) who:</p><p>1.  Can read all network traffic (Passive Surveillance).</p><p>2.  Can inject, delay, or replay network packets (Active MiTM).</p><p>3.  Has full read/write access to the Relay Server's database.</p><p>4.  Can compromise a user's device *temporarily*.</p><br><h2>Security Guarantees</h2><br><p>| Property | Guarantee | Mechanism |</p><p>| :--- | :--- | :--- |</p><p>| **Confidentiality** | The adversary cannot read message content. | End-to-End Encryption (AES-256-GCM) |</p><p>| **Integrity** | Message tampering is detected. | Authenticated Encryption (GCM tag) |</p><p>| **Authenticity** | Messages strictly come from the claimed sender. | Ed25519 Signatures on Keys |</p><p>| **Forward Secrecy** | Past messages remain secure if a key is stolen. | Session Ratcheting & One-Time PreKeys |</p><p>| **PC Security** | Future messages heal the session after a breach. | Diffie-Hellman Ratchet Steps |</p><p>| **Metadata Privacy** | The server knows *who* is talking, but not *what*. | Sealed Sender (partial) / Encrypted Payloads |</p><br><h2>Attack Vectors & Mitigations</h2><br><h3>1. The "Evil Server" Attack</h3><p>**Scenario**: The server admin tries to inject a fake public key for Alice to spy on Bob.</p><p>**Mitigation**: **TOFU (Trust On First Use)**. The server cannot overwrite Alice's Identity Key once established. Bob's client pins Alice's identity. If it changes, the client alerts the user.</p><br><h3>2. Replay Attack</h3><p>**Scenario**: An attacker captures a valid encrypted message and sends it to Alice again 100 times.</p><p>**Mitigation**: The local database tracks the `ratchet_step`. Any message with a `step <= current_step` is silently discarded as a duplicate.</p><br><h3>3. Traffic Analysis</h3><p>**Scenario**: Watching packet sizes to guess content (e.g., "This message is 5MB, it must be a photo").</p><p>**Mitigation**: Pad messages to fixed block sizes (future work). Currently, transport layer uses TLS (HTTPS) to mask exact byte boundaries.</p><br><div class="docs-footer"><a href="../introduction/philosophy.html" class="nav-prev">← Previous</a><a href="../protocol/specs.html" class="nav-next">Next →</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>

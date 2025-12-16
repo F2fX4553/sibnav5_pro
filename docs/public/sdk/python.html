@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python SDK | Sibna Protocol Docs</title>
+    <link rel="stylesheet" href="../style.css"> 
+    <!-- Note: relative path handling needed for nested dirs, simple implementation assumes flat or 1-deep -->
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚡</span> Sibna Protocol
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="nav-group"><div class="nav-header">Introduction</div><a href="../index.html" class="nav-item ">Welcome to Sibna</a></div><div class="nav-group"><div class="nav-header">Protocol Core</div><a href="../protocol/specs.html" class="nav-item ">Protocol Specification v2.0</a><a href="../protocol/security.html" class="nav-item ">Security Model</a></div><div class="nav-group"><div class="nav-header">SDKs</div><a href="../sdk/python.html" class="nav-item active">Python SDK</a><a href="../sdk/flutter.html" class="nav-item ">Flutter SDK</a></div><div class="nav-group"><div class="nav-header">Deployment</div></div>
+        </aside>
+        <main class="content">
+            <h1>Python SDK</h1><br><p>The `sibna` Python package is the reference implementation of the protocol.</p><br><h2>Installation</h2><pre><code>pip install sibna
+</code></pre><br><h2>Quick Start</h2><pre><code>from sibna import Client
+
+# Initialize
+alice = Client("alice")
+alice.start()
+
+# Register
+alice.register()
+
+# Send
+alice.send("bob", "Hello Secret World!")
+</code></pre><br><h2>API Reference</h2><li>`Client(user_id, server_url)`: Main entry point.</li><li>`client.start()`: Starts the background network loop.</li><li>`client.stop()`: Clean shutdown.</li><br><div class="docs-footer"><a href="../sdk/flutter.html" class="nav-prev">← Previous</a></div>
+        </main>
+        <aside class="toc">
+            <strong>On this page</strong>
+            <ul><li><a href='#'>Top</a></li></ul>
+        </aside>
+    </div>
+</body>
+</html>
